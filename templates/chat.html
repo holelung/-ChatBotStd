@@ -63,16 +63,48 @@
             padding: 20px;
             border-top: 1px solid #e4e6eb;
         }
+        .bot-message {
+            line-height: 1.4; /* 줄 간격 줄이기 */
+        }
+        .bot-message p {
+            margin: 0 0 0.5em 0; /* 문단 간 간격 줄이기 */
+        }
+        .bot-message ul, .bot-message ol {
+            margin: 0.5em 0;
+            padding-left: 1.5em;
+        }
+        .bot-message li {
+            margin-bottom: 0.2em; /* 리스트 아이템 간 간격 줄이기 */
+        }
+        .bot-message blockquote {
+            margin: 0.5em 0;
+            padding-left: 1em;
+            border-left: 3px solid #ccc;
+            color: #666;
+        }
         .bot-message pre {
             background-color: #f4f4f4;
-            padding: 10px;
+            padding: 0.5em;
             border-radius: 5px;
             overflow-x: auto;
+            margin: 0.5em 0;
         }
         .bot-message code {
             background-color: #f0f0f0;
             padding: 2px 4px;
             border-radius: 3px;
+        }
+        .bot-message h1, .bot-message h2, .bot-message h3, 
+        .bot-message h4, .bot-message h5, .bot-message h6 {
+            margin: 0.5em 0 0.3em 0;
+        }
+        .bot-message table {
+            border-collapse: collapse;
+            margin: 0.5em 0;
+        }
+        .bot-message th, .bot-message td {
+            border: 1px solid #ddd;
+            padding: 0.3em 0.6em;
         }
         #user-input {
             flex-grow: 1;
@@ -107,6 +139,16 @@
     </div>
 
     <script>
+        marked.use({
+            renderer: {
+                link(href, title, text) {
+                    // 텍스트가 '링크'인 경우 href로 대체
+                    const displayText = text === '링크' ? href : text;
+                    const titleAttr = title ? `title="${title}"` : '';
+                    return `<a href="${href}" ${titleAttr} target="_blank" rel="noopener noreferrer">${displayText}</a>`;
+                }
+            }
+        });
         function sendMessage() {
             var userMessage = $('#user-input').val();
             if (userMessage.trim() === '') return;
